@@ -1,0 +1,121 @@
+<?php
+// ============================================================
+// Header: Topbar + Navbar (tüm sayfalara dahil edilir)
+// ============================================================
+if (session_status() === PHP_SESSION_NONE) session_start();
+
+// Aktif sayfayı belirle
+$current_page = basename($_SERVER['PHP_SELF'], '.php');
+function aktif(string $sayfa, string $current): string {
+    return $sayfa === $current ? 'active' : '';
+}
+?>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sadi Teknik Servis – Kocaeli'nin güvenilir klima bakım, montaj, gaz dolumu ve petek temizliği uzmanı. 30 yıllık deneyim.">
+    <meta name="keywords" content="klima bakım, klima montaj, klima tamiri, petek temizliği, İzmit, Kocaeli, teknik servis">
+    <title><?= isset($page_title) ? htmlspecialchars($page_title) . ' | ' : '' ?>Sadi Teknik Servis</title>
+
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.co/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Bebas Neue (başlıklar) + Barlow (metin) -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Barlow+Condensed:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Ana CSS -->
+    <link rel="stylesheet" href="<?= /sadi_teknik/assets/css/style.css">">
+</head>
+<body>
+
+<!-- ======================================================
+     TOPBAR – iletişim bilgileri
+====================================================== -->
+<div class="topbar">
+    <div class="container">
+        <div class="topbar-inner">
+            <div class="topbar-left">
+                <span><i class="fas fa-envelope"></i> <?= SITE_MAIL ?></span>
+                <span><i class="fas fa-phone"></i> <?= SITE_TEL ?></span>
+            </div>
+            <div class="topbar-right">
+                <span><i class="fas fa-map-marker-alt"></i> <?= SITE_ADRES ?></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ======================================================
+     NAVBAR
+====================================================== -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top main-navbar">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="<?= str_repeat('../', substr_count($_SERVER['PHP_SELF'], '/', strlen($_SERVER['DOCUMENT_ROOT'])) - 1) ?>index.php">
+            <span class="brand-icon"><i class="fas fa-snowflake"></i></span>
+            <span class="brand-text">
+                <span class="brand-main">SADİ</span>
+                <span class="brand-sub">TEKNİK SERVİS</span>
+            </span>
+        </a>
+
+        <!-- Hamburger -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Menüyü aç/kapat">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menü -->
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item">
+                    <a class="nav-link <?= aktif('index', $current_page) ?>" href="<?= str_repeat('../', substr_count($_SERVER['PHP_SELF'], '/', strlen($_SERVER['DOCUMENT_ROOT'])) - 1) ?>index.php">
+                        <i class="fas fa-home"></i> Anasayfa
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= aktif('hakkimizda', $current_page) ?>" href="<?= str_repeat('../', substr_count($_SERVER['PHP_SELF'], '/', strlen($_SERVER['DOCUMENT_ROOT'])) - 1) ?>hakkimizda.php">
+                        <i class="fas fa-users"></i> Hakkımızda
+                    </a>
+                </li>
+                <!-- Dropdown: Hizmetler -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle <?= in_array($current_page, ['klima-bakimi-ve-tamiri','klima-montaji','klima-gaz-dolumu','petek-temizligi','hizmetler']) ? 'active' : '' ?>"
+                       href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-tools"></i> Hizmetlerimiz
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark-custom">
+                        <li><a class="dropdown-item" href="<?= str_repeat('../', substr_count($_SERVER['PHP_SELF'], '/', strlen($_SERVER['DOCUMENT_ROOT'])) - 1) ?>hizmet.php?slug=klima-bakimi-ve-tamiri">
+                            <i class="fas fa-wind"></i> Klima Bakımı ve Tamiri
+                        </a></li>
+                        <li><a class="dropdown-item" href="<?= str_repeat('../', substr_count($_SERVER['PHP_SELF'], '/', strlen($_SERVER['DOCUMENT_ROOT'])) - 1) ?>hizmet.php?slug=klima-montaji">
+                            <i class="fas fa-wrench"></i> Klima Montajı
+                        </a></li>
+                        <li><a class="dropdown-item" href="<?= str_repeat('../', substr_count($_SERVER['PHP_SELF'], '/', strlen($_SERVER['DOCUMENT_ROOT'])) - 1) ?>hizmet.php?slug=klima-gaz-dolumu">
+                            <i class="fas fa-fill-drip"></i> Klima Gaz Dolumu
+                        </a></li>
+                        <li><a class="dropdown-item" href="<?= str_repeat('../', substr_count($_SERVER['PHP_SELF'], '/', strlen($_SERVER['DOCUMENT_ROOT'])) - 1) ?>hizmet.php?slug=petek-temizligi">
+                            <i class="fas fa-fire"></i> Petek Temizliği
+                        </a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= aktif('fiyat-listesi', $current_page) ?>" href="<?= str_repeat('../', substr_count($_SERVER['PHP_SELF'], '/', strlen($_SERVER['DOCUMENT_ROOT'])) - 1) ?>fiyat-listesi.php">
+                        <i class="fas fa-tags"></i> Fiyat Listesi
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= aktif('iletisim', $current_page) ?>" href="<?= str_repeat('../', substr_count($_SERVER['PHP_SELF'], '/', strlen($_SERVER['DOCUMENT_ROOT'])) - 1) ?>iletisim.php">
+                        <i class="fas fa-envelope"></i> İletişim
+                    </a>
+                </li>
+                <li class="nav-item ms-lg-2">
+                    <a class="nav-link nav-admin-btn" href="<?= str_repeat('../', substr_count($_SERVER['PHP_SELF'], '/', strlen($_SERVER['DOCUMENT_ROOT'])) - 1) ?>admin/index.php">
+                        <i class="fas fa-lock"></i> Admin
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
