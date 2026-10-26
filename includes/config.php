@@ -1,10 +1,11 @@
 <?php
 
 
-define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'kocaeli_teknik_servis');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_HOST',    getenv('MYSQLHOST')     ?: '127.0.0.1');
+define('DB_PORT',    getenv('MYSQLPORT')     ?: '3306');
+define('DB_NAME',    getenv('MYSQLDATABASE') ?: 'kocaeli_teknik_servis');
+define('DB_USER',    getenv('MYSQLUSER')     ?: 'root');
+define('DB_PASS',    getenv('MYSQLPASSWORD') ?: '');
 define('DB_CHARSET', 'utf8mb4');
 
 
@@ -17,7 +18,7 @@ define('WA_LINK',    'https://wa.me/905300749206');
 function db(): PDO {
     static $pdo = null;
     if ($pdo === null) {
-        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
+        $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
